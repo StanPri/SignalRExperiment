@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/StanPri/SignalRExperiment/issues"
   },
-  "homepage": "https://github.com/StanPri/SignalRExperiment#readme"
+  "homepage": "https://github.com/StanPri/SignalRExperiment#readme",
+  "dependencies": {
+    "@aspnet/signalr": "^1.1.2"
+  }
 }
