@@ -2,6 +2,7 @@
 1. Run Webpack in release mode by executing the following command in the project root:
 
 `npm run release`
+
 This command yields the client-side assets to be served when running the app. The assets are placed in the wwwroot folder.
 
 Webpack completed the following tasks:
@@ -17,6 +18,7 @@ Webpack completed the following tasks:
 2. Build and run the app by executing the following command in the project root:
 
 `dotnet run`
+
 The web server starts the app and makes it available on localhost.
 
 3. Open a browser to `http://localhost:<port_number>`. The wwwroot/index.html file is served. Copy the URL from the address bar.
