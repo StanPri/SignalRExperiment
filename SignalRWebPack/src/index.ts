@@ -13,12 +13,12 @@ const connection = new signalR.HubConnectionBuilder()
 connection.start().catch(err => document.write(err));
 
 connection.on("messageReceived", (username: string, message: string) => {
-    let m = document.createElement("div");
+    let messageContainer = document.createElement("div");
 
-    m.innerHTML =
+    messageContainer.innerHTML =
         `<div class="message-author">${username}</div><div>${message}</div>`;
 
-    divMessages.appendChild(m);
+    divMessages.appendChild(messageContainer);
     divMessages.scrollTop = divMessages.scrollHeight;
 });
 
@@ -31,4 +31,6 @@ tbMessage.addEventListener("keyup", (e: KeyboardEvent) => {
 btnSend.addEventListener("click", send);
 
 function send() {
+    connection.send("newMessage", username, tbMessage.value)
+              .then(() => tbMessage.value = "");
 }
