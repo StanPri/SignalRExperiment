@@ -5,23 +5,39 @@ var signalR = require("@aspnet/signalr");
 var divMessages = document.querySelector("#divMessages");
 var tbMessage = document.querySelector("#tbMessage");
 var btnSend = document.querySelector("#btnSend");
+var divMessageInProgress = document.querySelector("#messageInProgress");
 var username = new Date().getTime();
 var connection = new signalR.HubConnectionBuilder()
     .withUrl("/hub")
     .build();
 connection.start().catch(function (err) { return document.write(err); });
 connection.on("messageReceived", function (username, message) {
-    var m = document.createElement("div");
-    m.innerHTML =
+    var messageContainer = document.createElement("div");
+    messageContainer.innerHTML =
         "<div class=\"message-author\">" + username + "</div><div>" + message + "</div>";
-    divMessages.appendChild(m);
+    divMessages.appendChild(messageContainer);
     divMessages.scrollTop = divMessages.scrollHeight;
 });
+connection.on("messageInProgress", function (message) {
+    var messageContainer = document.createElement("div");
+    messageContainer.innerHTML =
+        "<div class=\"messageInProgress\">" + message + "</div>";
+    if (divMessageInProgress.lastChild) {
+        divMessageInProgress.removeChild(divMessageInProgress.lastChild);
+    }
+    divMessageInProgress.appendChild(messageContainer);
+});
 tbMessage.addEventListener("keyup", function (e) {
+    messageInProgress();
     if (e.keyCode === 13) {
         send();
     }
 });
 btnSend.addEventListener("click", send);
 function send() {
+    connection.send("newMessage", username, tbMessage.value)
+        .then(function () { return tbMessage.value = ""; });
+}
+function messageInProgress() {
+    connection.send("inProgressMessage", username);
 }

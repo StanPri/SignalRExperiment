@@ -9,5 +9,11 @@ namespace SignalRWebPack.Hubs
         {
             await Clients.All.SendAsync("messageReceived", username, message);
         }
+
+        public async Task InProgressMessage(string username)
+        {
+            string message = $"{username} is writing a message...";
+            await Clients.All.SendAsync("messageInProgress", message);
+        }
     }
 }
